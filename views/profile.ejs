@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>My Profile - EventEase</title>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2>My Profile</h2>
+                <p class="text-muted mb-0">
+                    welcome, <%= user.name%>
+                </p>
+            </div>
+            <a href="/auth/logout" class="btn btn-danger">Logout</a>
+        </div>
+        <div class="card mb-0">
+            <div class="card-body">
+                <h4>
+                    <%= user.name %>
+                </h4>
+                <p>
+                    <strong>Email:</strong>
+                    <%= user.email %>
+                </p>
+            </div>
+        </div>
+        <h3 class="mb-3">Bookings</h3>
+        <table class="table table-border table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Event</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- bookings of logged in user -->
+                <% if (bookings && bookings.length>0) {%>
+                    <% bookings.forEach(booking=> {%>
+                        <tr>
+                            <td>
+                                <%= booking.event.title%>
+                            </td>
+                            <td>
+                                <%= booking.quantity%>
+                            </td>
+                            <td>
+                                <%= booking.totalAmount%>
+                            </td>
+                            <td>
+                                <% if (booking.paymentStatus=="completed" ) {%>
+                                    <span class="badge bg-success">
+                                        completed
+                                    </span>
+                                    <%} else {%>
+                                        <span class="badge bg-warning text-dark">
+                                            Pending
+                                        </span>
+                                        <%}%>
+                            </td>
+                        </tr>
+                        <%});%>
+                            <%}else { %>
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        No Booking found
+                                    </td>
+                                </tr>
+                                <%}%>
+            </tbody>
+        </table>
+        <h2 class="mt-5 mb-3">Available Events</h2>
+        <div class="row">
+            <% events.forEach(event=>{%>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5>
+                                <%= event.title %>
+                            </h5>
+                            <p class="text-muted">
+                                <%= event.city %>
+                            </p>
+                            <h6>₹<%= event.price %>
+                            </h6>
+                            <p>Seats: <%= event.availableSeats %>
+                            </p>
+                            <form action="/bookings/<%= event._id %>" method="post">
+                                <input type="number" class="form-control mb-3" name="quantity" value="1" min="1"
+                                    max="<%= event.availableSeats %>">
+                                <button class="btn btn-primary w-100">Book Now</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <%}) %>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+    integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+    crossorigin="anonymous"></script>

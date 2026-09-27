@@ -1,0 +1,67 @@
+import mongoose from "mongoose"
+const eventSchema = new mongoose.Schema({
+    title:{
+        type:String,
+        required:true
+    },
+    discription:{
+        type:String,
+        required:true
+    },
+    category:{
+        type:String,
+        enum:[
+            "Music",
+            "Technology",
+            "Sports",
+            "comedy",
+            "Politics",
+            "workshop"
+        ],
+        required:true
+    },
+    image:{
+        type:String,
+        default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0xCc5ZXzXvsuflxCLEo6ONbxRQiGjD9PXrw&s"
+    },
+    venue:{
+        type:String,
+        required:true
+    },
+    city:{
+        type:String,
+        required:true
+    },
+    eventDate:{
+        type:Date,
+        required:true
+    },
+    startTime:{
+        type:String,
+        required:true
+    },
+    endTime:{
+        type:String,
+        required:true
+    },
+    price:{
+        type:String,
+        required:true
+    },
+    totalSeats:{
+        type:String,
+        required:true
+    },
+    availableSeats:{
+        type:String,
+        required:true
+    },
+    organizer:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true
+    }
+},{timestamps:true})
+
+export default mongoose.model("Events",eventSchema)
+// Lang chain with python
